@@ -101,7 +101,7 @@ class StreamReader(object):
             else:
                 return
 
-        lines = (self.buffer + data).split(b'\n')
+        lines = (self.buffer + data).split(b'\r\n')
         self.buffer = lines.pop()
 
         for line in lines:
