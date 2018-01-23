@@ -15,15 +15,17 @@ LOG_FORMAT = logging.Formatter(
     ('%(asctime)s pwrcheck %(levelname)s %(name)s.%(funcName)s:%(lineno)d '
      ' - %(message)s'))
 
+STREAM_ERRORS = ('raise', 'yield', 'ignore')
+
 PWRCHECK_WARM_UP = 5
 
 PWRCHECK_PROPERTIES = [
     'volts',
     'amps',
     'watts',
-    'total_amp_hours'
-    'forward_amp_hours'
-    'reverse_amp_hours'
+    'total_amp_hours',
+    'forward_amp_hours',
+    'reverse_amp_hours',
     'max_volts',
     'min_volts',
     'max_amps',

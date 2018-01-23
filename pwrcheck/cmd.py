@@ -24,7 +24,7 @@ def cli():
         '-b', '--serial_speed', help='serial_speed', default=115200
     )
     parser.add_argument(
-        '-i', '--interval', help='interval', default=0
+        '-i', '--interval', help='interval', default=0, type=int
     )
 
     opts = parser.parse_args()

@@ -15,8 +15,10 @@ Python PWRCheck Reader.
 
 """
 
+from .exceptions import ParseError  # NOQA
+
 from .constants import (LOG_FORMAT, LOG_LEVEL, PWRCHECK_PROPERTIES,  # NOQA
-                        PWRCHECK_WARM_UP)
+                        PWRCHECK_WARM_UP, STREAM_ERRORS)
 
 from .classes import SerialPoller  # NOQA
 

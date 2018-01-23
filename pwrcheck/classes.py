@@ -6,7 +6,6 @@
 import logging
 import threading
 
-import pynmea2
 import serial
 
 import pwrcheck
@@ -50,7 +49,7 @@ class SerialPoller(threading.Thread):
         return self._stopped
 
     def run(self):
-        streamreader = pynmea2.NMEAStreamReader(self._serial_int)
+        streamreader = StreamReader(self._serial_int)
         try:
             while not self._stopped:
                 for msg in streamreader.next():
@@ -61,3 +60,57 @@ class SerialPoller(threading.Thread):
                             #    '%s=%s', prop, self.pwrcheck_props[prop])
         except StopIteration:
             pass
+
+
+class StreamReader(object):
+    """
+    Reads Lines from a stream.
+    """
+
+    def __init__(self, stream=None, errors='raise'):
+        """
+        `stream`:   file-like object to read from, can be omitted to
+                    pass data to `next` manually.
+                    must support `.readline()` which returns a string
+        `errors`: behaviour when a parse error is encountered. can be one of:
+            `'raise'` (default) raise an exception immediately
+            `'yield'`           yield the ParseError as an element in the
+                                stream, and continue reading at the next line
+            `'ignore'`          completely ignore and suppress the error, and
+                                continue reading at the next line
+        """
+
+        if errors not in pwrcheck.STREAM_ERRORS:
+            raise ValueError(
+                'errors must be one of {!r} (was: {!r})'.format(
+                    pwrcheck.STREAM_ERRORS, errors))
+
+        self.errors = errors
+        self.stream = stream
+        self.buffer = b''
+
+    def next(self, data=None):
+        """
+        consume `data` (if given, or calls `stream.read()` if `stream` was
+        given in the constructor) and yield a list of `NMEASentence` objects
+        parsed from the stream (may be empty)
+        """
+        if data is None:
+            if self.stream:
+                data = self.stream.readline()
+            else:
+                return
+
+        lines = (self.buffer + data).split(b'\n')
+        self.buffer = lines.pop()
+
+        for line in lines:
+            try:
+                yield line
+            except pwrcheck.ParseError as exc:
+                if self.errors == 'raise':
+                    raise exc
+                if self.errors == 'yield':
+                    yield exc
+                if self.errors == 'ignore':
+                    pass
