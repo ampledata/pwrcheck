@@ -54,8 +54,9 @@ def cli() -> None:
             if librato_api:
                 print('Submitting to Librato...')
                 api_queue = librato_api.new_queue()
-                for k,v in pwrcheck_poller.pwrcheck_props.items():
-                    api_queue.add(k, float(v))
+                for prop_k, prop_v in pwrcheck_poller.pwrcheck_props.items():
+                    metric_name = '.'.join(['pwrcheck', prop_k])
+                    api_queue.add(metric_name, float(prop_v))
                 api_queue.submit()
 
             if opts.interval == 0:
