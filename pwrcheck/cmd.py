@@ -39,6 +39,7 @@ def cli():
 
     try:
         while 1:
+            
             pprint.pprint(pwrcheck_poller.pwrcheck_props)
 
             if opts.interval == 0:
