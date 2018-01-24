@@ -53,8 +53,8 @@ class SerialPoller(threading.Thread):
         try:
             while not self._stopped:
                 for msg in streamreader.next():
-                    self.pwrcheck_props = zip(
-                        pwrcheck.PWRCHECK_PROPERTIES, msg.split(b','))
+                    self.pwrcheck_props = dict(zip(
+                        pwrcheck.PWRCHECK_PROPERTIES, msg.split(b',')))
         except StopIteration:
             pass
 

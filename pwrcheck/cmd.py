@@ -4,6 +4,7 @@
 """Python PWRCheck Reader Commands."""
 
 import argparse
+import pprint
 import time
 
 import pwrcheck
@@ -35,12 +36,9 @@ def cli():
 
     time.sleep(pwrcheck.PWRCHECK_WARM_UP)
 
-    import pprint
-
     try:
         while 1:
-            for k, v in pwrcheck_poller.pwrcheck_props.items():
-                print('{}={}'.format(k, v))
+            pprint.pprint(pwrcheck_poller.pwrcheck_props)
 
             if opts.interval == 0:
                 break
