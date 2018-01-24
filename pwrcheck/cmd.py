@@ -4,8 +4,11 @@
 """Python PWRCheck Reader Commands."""
 
 import argparse
+import os
 import pprint
 import time
+
+import librato
 
 import pwrcheck
 
@@ -14,7 +17,7 @@ __copyright__ = 'Copyright 2018 Greg Albrecht'
 __license__ = 'Apache License, Version 2.0'
 
 
-def cli():
+def cli() -> None:
     """Tracker Command Line interface for PWRCheck."""
 
     parser = argparse.ArgumentParser()
@@ -30,6 +33,13 @@ def cli():
 
     opts = parser.parse_args()
 
+    librato_email = os.environ.get('LIBRATO_EMAIL')
+    librato_token = os.environ.get('LIBRATO_TOKEN')
+
+    librato_api = None
+    if librato_email and librato_token:
+        librato_api = librato.connect(librato_email, librato_token)
+
     pwrcheck_poller = pwrcheck.SerialPoller(
         opts.serial_port, opts.serial_speed)
     pwrcheck_poller.start()
@@ -38,7 +48,15 @@ def cli():
 
     try:
         while 1:
+            print(time.time())
             pprint.pprint(pwrcheck_poller.pwrcheck_props)
+
+            if librato_api:
+                print('Submitting to Librato...')
+                api_queue = librato_api.new_queue()
+                for k,v in pwrcheck_poller.pwrcheck_props.items():
+                    api_queue.add(k, float(v))
+                api_queue.submit()
 
             if opts.interval == 0:
                 break

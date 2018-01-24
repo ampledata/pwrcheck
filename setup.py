@@ -52,6 +52,7 @@ setuptools.setup(
     install_requires=[
         'pynmea2 >= 1.4.2',
         'pyserial >= 2.7',
+        'librato'
     ],
     classifiers=[
         'Topic :: Communications :: Ham Radio',
