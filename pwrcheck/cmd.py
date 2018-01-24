@@ -39,7 +39,8 @@ def cli():
 
     try:
         while 1:
-            pprint.pprint(pwrcheck_poller.pwrcheck_props)
+            for k, v in pwrcheck_poller.pwrcheck_props.items():
+                print('{}={}'.format(k, v))
 
             if opts.interval == 0:
                 break
