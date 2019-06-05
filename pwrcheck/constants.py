@@ -6,7 +6,7 @@
 import logging
 
 __author__ = 'Greg Albrecht W2GMD <oss@undef.net>'
-__copyright__ = 'Copyright 2018 Greg Albrecht'
+__copyright__ = 'Copyright 2019 Greg Albrecht'
 __license__ = 'Apache License, Version 2.0'
 
 

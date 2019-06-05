@@ -28,7 +28,7 @@ http://ampledata.org/
 
 Copyright
 =========
-Copyright 2018 Greg Albrecht
+Copyright 2019 Greg Albrecht
 
 License
 =======

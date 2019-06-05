@@ -4,16 +4,17 @@
 """Python PWRCheck Reader Commands."""
 
 import argparse
+import copy
 import os
 import pprint
 import time
 
-import librato
+import requests
 
 import pwrcheck
 
 __author__ = 'Greg Albrecht W2GMD <oss@undef.net>'
-__copyright__ = 'Copyright 2018 Greg Albrecht'
+__copyright__ = 'Copyright 2019 Greg Albrecht'
 __license__ = 'Apache License, Version 2.0'
 
 
@@ -30,15 +31,11 @@ def cli() -> None:
     parser.add_argument(
         '-i', '--interval', help='interval', default=0, type=int
     )
+    parser.add_argument(
+        '-u', '--url', help='url', default='http://node-red/pwrcheck'
+    )
 
     opts = parser.parse_args()
-
-    librato_email = os.environ.get('LIBRATO_EMAIL')
-    librato_token = os.environ.get('LIBRATO_TOKEN')
-
-    librato_api = None
-    if librato_email and librato_token:
-        librato_api = librato.connect(librato_email, librato_token)
 
     pwrcheck_poller = pwrcheck.SerialPoller(
         opts.serial_port, opts.serial_speed)
@@ -48,16 +45,17 @@ def cli() -> None:
 
     try:
         while 1:
-            print(time.time())
+            props = copy.copy(pwrcheck_poller.pwrcheck_props)
+            props['ts'] = time.time()
             pprint.pprint(pwrcheck_poller.pwrcheck_props)
 
-            if librato_api:
-                print('Submitting to Librato...')
-                api_queue = librato_api.new_queue()
-                for prop_k, prop_v in pwrcheck_poller.pwrcheck_props.items():
-                    metric_name = '.'.join(['pwrcheck', prop_k])
-                    api_queue.add(metric_name, float(prop_v))
-                api_queue.submit()
+            if opts.url:
+                try:
+                    res = requests.post(opts.url, json=props)
+                except:
+                    pass
+
+            del props
 
             if opts.interval == 0:
                 break

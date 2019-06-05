@@ -13,9 +13,9 @@ import sys
 import setuptools
 
 __title__ = 'pwrcheck'
-__version__ = '0.0.1b8'
+__version__ = '1.0.0b1'
 __author__ = 'Greg Albrecht W2GMD <oss@undef.net>'
-__copyright__ = 'Copyright 2018 Greg Albrecht'
+__copyright__ = 'Copyright 2019 Greg Albrecht'
 __license__ = 'Apache License, Version 2.0'
 
 
@@ -52,7 +52,7 @@ setuptools.setup(
     install_requires=[
         'pynmea2 >= 1.4.2',
         'pyserial >= 2.7',
-        'librato-metrics'
+        'requests'
     ],
     classifiers=[
         'Topic :: Communications :: Ham Radio',

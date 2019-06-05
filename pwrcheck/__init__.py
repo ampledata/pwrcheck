@@ -9,7 +9,7 @@ Python PWRCheck Reader.
 
 
 :author: Greg Albrecht W2GMD <oss@undef.net>
-:copyright: Copyright 2018 Greg Albrecht
+:copyright: Copyright 2019 Greg Albrecht
 :license: Apache License, Version 2.0
 :source: <https://github.com/ampledata/pwrcheck>
 
@@ -23,5 +23,5 @@ from .constants import (LOG_FORMAT, LOG_LEVEL, PWRCHECK_PROPERTIES,  # NOQA
 from .classes import SerialPoller  # NOQA
 
 __author__ = 'Greg Albrecht W2GMD <oss@undef.net>'
-__copyright__ = 'Copyright 2018 Greg Albrecht'
+__copyright__ = 'Copyright 2019 Greg Albrecht'
 __license__ = 'Apache License, Version 2.0'
