@@ -52,8 +52,8 @@ def cli() -> None:
             if opts.url:
                 try:
                     res = requests.post(opts.url, json=props)
-                except:
-                    pass
+                except Exception as exc:
+                    print(exc)
 
             del props
 
