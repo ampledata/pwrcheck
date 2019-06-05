@@ -46,7 +46,7 @@ def cli() -> None:
 
     try:
         while 1:
-            props = copy.copy(pwrcheck_poller.pwrcheck_props)
+            props = copy.copy(pwrcheck_poller.pwrcheck_props.items())
             props['ts'] = time.time()
             pprint.pprint(pwrcheck_poller.pwrcheck_props)
 
