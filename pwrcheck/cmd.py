@@ -46,13 +46,13 @@ def cli() -> None:
 
     try:
         while 1:
-            props = copy.copy(pwrcheck_poller.pwrcheck_props.items())
+            props = copy.copy(pwrcheck_poller.pwrcheck_props)
             props['ts'] = time.time()
             pprint.pprint(pwrcheck_poller.pwrcheck_props)
 
             if opts.url:
                 try:
-                    res = requests.post(opts.url, json=props)
+                    res = requests.post(opts.url, data=props)
                 except Exception as exc:
                     print(exc)
 
