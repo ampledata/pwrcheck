@@ -34,7 +34,7 @@ def cli() -> None:
         '-i', '--interval', help='interval', default=0, type=int
     )
     parser.add_argument(
-        '-u', '--url', help='url' required=False
+        '-u', '--url', help='url', required=False
     )
     parser.add_argument(
         '-m', '--mqtt', help='url', required=False
