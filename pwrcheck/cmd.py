@@ -10,6 +10,7 @@ import os
 import pprint
 import time
 
+import paho.mqtt.publish as publish
 import requests
 
 import pwrcheck
@@ -35,6 +36,9 @@ def cli() -> None:
     parser.add_argument(
         '-u', '--url', help='url', default='http://node-red/pwrcheck'
     )
+    parser.add_argument(
+        '-m', '--mqtt', help='url', default='mqtt.example.com'
+    )
 
     opts = parser.parse_args()
 
@@ -53,6 +57,13 @@ def cli() -> None:
             if opts.url:
                 try:
                     res = requests.post(opts.url, data=props)
+                except Exception as exc:
+                    print(exc)
+
+            if opts.mqtt:
+                try:
+                    for k,v in props.items():
+                        publish.single('pwrcheck/' + k, v, hostname=opts.mqtt)
                 except Exception as exc:
                     print(exc)
 
