@@ -34,10 +34,10 @@ def cli() -> None:
         '-i', '--interval', help='interval', default=0, type=int
     )
     parser.add_argument(
-        '-u', '--url', help='url', default='http://node-red/pwrcheck'
+        '-u', '--url', help='url' required=False
     )
     parser.add_argument(
-        '-m', '--mqtt', help='url', default='mqtt.example.com'
+        '-m', '--mqtt', help='url', required=False
     )
 
     opts = parser.parse_args()
